@@ -28,7 +28,7 @@ function toast(message) {
   el.className = "toast";
   el.textContent = message;
   document.body.appendChild(el);
-  setTimeout(() => el.remove(), 3200);
+  setTimeout(() => el.remove(), 5000);
 }
 
 function prettyDate(value) {
@@ -173,6 +173,18 @@ function openPostFlow() {
   setTimeout(() => $("postTopic").focus(), 50);
 }
 
+async function getFunctionError(error) {
+  let detail = error?.message || "Não foi possível gerar o post.";
+  try {
+    if (error?.context && typeof error.context.json === "function") {
+      const body = await error.context.json();
+      detail = body?.error || body?.message || detail;
+      if (body?.detail) detail += " — " + body.detail;
+    }
+  } catch {}
+  return detail;
+}
+
 async function generatePost() {
   const topic = $("postTopic").value.trim();
   const instruction = $("postInstruction").value.trim();
@@ -197,14 +209,22 @@ async function generatePost() {
   $("imageLoading").classList.add("hidden");
 
   if (error) {
+    const detail = await getFunctionError(error);
     $("generationStatus").textContent = "Erro";
-    toast(error.message || "Não foi possível gerar o post.");
+    toast("IA: " + detail);
+    console.error("generate-post error:", error);
+    return;
+  }
+
+  if (data?.error) {
+    $("generationStatus").textContent = "Erro";
+    toast("IA: " + data.error + (data.detail ? " — " + data.detail : ""));
     return;
   }
 
   if (!data?.image_url || !data?.caption) {
     $("generationStatus").textContent = "Erro";
-    toast(data?.error || "A IA não retornou um post completo.");
+    toast("A IA não retornou um post completo.");
     return;
   }
 
