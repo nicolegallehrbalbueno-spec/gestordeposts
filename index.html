@@ -1,11 +1,138 @@
 <!doctype html>
 <html lang="pt-BR">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Gestor de Posts</title><meta name="description" content="Painel para organizar e acompanhar conteúdos."><link rel="stylesheet" href="style.css"></head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestor de Posts</title>
+  <meta name="description" content="Painel para criar e organizar conteúdos com inteligência artificial.">
+  <link rel="stylesheet" href="style.css">
+</head>
 <body>
-<div class="app"><aside class="sidebar"><div class="brand"><span>✦</span> Gestor de Posts</div><nav><a class="active" href="#">Dashboard</a><a href="#">Posts</a><a href="#">Grupos</a><a href="#">Temas</a><a href="#">Métricas</a></nav><div class="sidebarNote">Organize sua rotina de conteúdo em um só lugar. ✨</div></aside>
-<main class="content"><header class="topbar"><div><p class="eyebrow">CENTRAL DE CONTEÚDO</p><h1>Bom te ver por aqui. ✨</h1><p class="muted">Prepare, organize e acompanhe suas publicações.</p></div><button class="primary" id="newPost">+ Novo post</button></header>
-<section class="cards"><article class="card"><div class="icon">📅</div><div><span>Posts de hoje</span><strong id="todayCount">0</strong><small>Nenhuma publicação preparada</small></div></article><article class="card"><div class="icon">👥</div><div><span>Grupos</span><strong>0</strong><small>Cadastre seus primeiros grupos</small></div></article><article class="card"><div class="icon">📝</div><div><span>Rascunhos</span><strong id="draftCount">0</strong><small>Conteúdos aguardando preparação</small></div></article><article class="card"><div class="icon">📊</div><div><span>Publicados</span><strong>0</strong><small>O histórico aparecerá aqui</small></div></article></section>
-<section class="panel"><div class="panelHead"><div><h2>Fila de publicações</h2><p class="muted">Os próximos conteúdos preparados aparecerão aqui.</p></div><button class="secondary">Ver todos</button></div><div id="queue" class="empty"><div class="emptyIcon">📝</div><h3>Nenhum post preparado ainda</h3><p>Comece criando seu primeiro conteúdo.</p><button class="primary" id="firstPost">Criar primeiro post</button></div></section><footer>Gestor de Posts · versão inicial</footer></main></div>
-<div class="modal" id="postModal" aria-hidden="true"><div class="modalCard"><div class="modalHead"><div><p class="eyebrow">NOVO CONTEÚDO</p><h2>Criar post</h2><p class="muted">Prepare o conteúdo que será publicado nos grupos.</p></div><button class="close" id="closeModal" aria-label="Fechar">×</button></div>
-<form id="postForm"><label>Título do post<input id="postTitle" required placeholder="Ex.: Oração para começar o dia"></label><label>Tema<select id="postTopic"><option value="">Selecione um tema</option><option>Oração da manhã</option><option>Oração da noite</option><option>Proteção</option><option>Prosperidade</option><option>Família</option><option>Ansiedade</option><option>Gratidão</option></select></label><label>Legenda<textarea id="postCaption" required rows="6" placeholder="Escreva aqui a legenda que será publicada..."></textarea></label><label>Data sugerida<input id="postDate" type="date"></label><div class="formActions"><button type="button" class="secondary" id="cancelPost">Cancelar</button><button type="submit" class="primary">Salvar rascunho</button></div></form></div></div>
-<script src="app.js"></script></body></html>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><span>✦</span> Gestor de Posts</div>
+    <nav>
+      <a class="active" href="#">Dashboard</a>
+      <a href="#posts">Posts</a>
+      <a href="#grupos">Grupos</a>
+      <a href="#temas">Temas</a>
+      <a href="#metricas">Métricas</a>
+    </nav>
+    <div class="sidebarNote">Crie conteúdos completos com IA e organize sua rotina de publicação. ✨</div>
+  </aside>
+
+  <main class="content">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">CENTRAL DE CONTEÚDO</p>
+        <h1>Bom te ver por aqui. ✨</h1>
+        <p class="muted">Prepare, organize e acompanhe suas publicações.</p>
+      </div>
+      <div class="topActions">
+        <span id="userStatus" class="userStatus">Não conectado</span>
+        <button class="secondary" id="authButton">Entrar</button>
+        <button class="primary" id="newPost">+ Novo post</button>
+      </div>
+    </header>
+
+    <section class="cards">
+      <article class="card"><div class="icon">📅</div><div><span>Posts de hoje</span><strong id="todayCount">0</strong><small>Conteúdos preparados</small></div></article>
+      <article class="card"><div class="icon">👥</div><div><span>Grupos</span><strong id="groupCount">0</strong><small>Grupos cadastrados</small></div></article>
+      <article class="card"><div class="icon">📝</div><div><span>Rascunhos</span><strong id="draftCount">0</strong><small>Aguardando publicação</small></div></article>
+      <article class="card"><div class="icon">📊</div><div><span>Publicados</span><strong id="publishedCount">0</strong><small>No histórico</small></div></article>
+    </section>
+
+    <section class="panel" id="posts">
+      <div class="panelHead">
+        <div><h2>Fila de publicações</h2><p class="muted">Seus posts gerados e salvos aparecerão aqui.</p></div>
+        <button class="secondary" id="refreshPosts">Atualizar</button>
+      </div>
+      <div id="queue" class="empty">
+        <div class="emptyIcon">📝</div>
+        <h3>Nenhum post preparado ainda</h3>
+        <p>Escolha um tema e deixe a IA preparar a primeira publicação.</p>
+        <button class="primary" id="firstPost">Criar primeiro post</button>
+      </div>
+    </section>
+    <footer>Gestor de Posts · IA de conteúdo · versão inicial</footer>
+  </main>
+</div>
+
+<div class="modal" id="authModal" aria-hidden="true">
+  <div class="modalCard smallModal">
+    <div class="modalHead">
+      <div><p class="eyebrow">ACESSO</p><h2 id="authTitle">Entrar</h2><p class="muted" id="authSubtitle">Entre para criar e salvar seus conteúdos.</p></div>
+      <button class="close" id="closeAuth" aria-label="Fechar">×</button>
+    </div>
+    <form id="authForm">
+      <label>E-mail<input id="authEmail" type="email" autocomplete="email" required placeholder="voce@email.com"></label>
+      <label>Senha<input id="authPassword" type="password" autocomplete="current-password" minlength="6" required placeholder="Mínimo de 6 caracteres"></label>
+      <div id="authMessage" class="formMessage"></div>
+      <div class="formActions">
+        <button type="button" class="secondary" id="toggleAuthMode">Criar conta</button>
+        <button type="submit" class="primary" id="authSubmit">Entrar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="postModal" aria-hidden="true">
+  <div class="modalCard postModalCard">
+    <div class="modalHead">
+      <div><p class="eyebrow">NOVO CONTEÚDO</p><h2>Criar post com IA</h2><p class="muted">Escolha o assunto. A IA cria a legenda e a imagem para você revisar.</p></div>
+      <button class="close" id="closeModal" aria-label="Fechar">×</button>
+    </div>
+
+    <form id="postForm">
+      <div class="generatorGrid">
+        <div>
+          <label>Tema do post
+            <input id="postTopic" required placeholder="Ex.: oração para proteção da família">
+          </label>
+          <div class="suggestions">
+            <button type="button" data-topic="oração para começar o dia">🌤️ Começar o dia</button>
+            <button type="button" data-topic="oração para proteção da família">🕊️ Proteção da família</button>
+            <button type="button" data-topic="oração para acalmar o coração">🤍 Acalmar o coração</button>
+            <button type="button" data-topic="oração de gratidão">🙏 Gratidão</button>
+          </div>
+          <label>Orientação extra <span class="optional">opcional</span>
+            <textarea id="postInstruction" rows="3" placeholder="Ex.: quero uma mensagem mais emocionante e curta"></textarea>
+          </label>
+          <label>Data sugerida <span class="optional">opcional</span>
+            <input id="postDate" type="datetime-local">
+          </label>
+          <button type="submit" class="primary generateButton" id="generateButton">✨ Gerar legenda + imagem</button>
+        </div>
+        <div class="generatorInfo">
+          <div class="aiBadge">✦ IA</div>
+          <h3>Você só precisa dar o tema.</h3>
+          <p>A IA prepara título, legenda, chamada para ação, hashtags e uma imagem original para o post.</p>
+          <div class="aiSteps"><span>01</span> Tema <span>→</span> <span>02</span> Conteúdo <span>→</span> <span>03</span> Imagem</div>
+        </div>
+      </div>
+    </form>
+
+    <section id="preview" class="preview hidden">
+      <div class="previewHead">
+        <div><p class="eyebrow">PRÉ-VISUALIZAÇÃO</p><h3>Revise antes de salvar</h3></div>
+        <span id="generationStatus" class="status">Gerado pela IA</span>
+      </div>
+      <div class="previewGrid">
+        <div class="imageBox"><img id="generatedImage" alt="Imagem gerada para o post"><div id="imageLoading" class="imageLoading hidden">Gerando imagem… ✨</div></div>
+        <div class="previewFields">
+          <label>Título<input id="previewTitle"></label>
+          <label>Legenda<textarea id="previewCaption" rows="12"></textarea></label>
+        </div>
+      </div>
+      <div class="previewActions">
+        <button type="button" class="secondary" id="regenerate">↻ Gerar novamente</button>
+        <button type="button" class="secondary" id="saveDraft">Salvar rascunho</button>
+        <button type="button" class="primary" id="addQueue">✓ Adicionar à fila</button>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
