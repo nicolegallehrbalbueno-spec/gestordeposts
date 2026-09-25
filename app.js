@@ -1,0 +1,1 @@
+document.querySelectorAll(".primary").forEach(button=>{button.addEventListener("click",()=>{alert("A criação de posts será adicionada na próxima etapa. ✨");});});
