@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestor de Posts</title>
+  <meta name="description" content="Painel para organizar e acompanhar conteúdos.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand"><span>✦</span> Gestor de Posts</div>
+      <nav>
+        <a class="active" href="#">Dashboard</a>
+        <a href="#">Posts</a>
+        <a href="#">Grupos</a>
+        <a href="#">Temas</a>
+        <a href="#">Métricas</a>
+      </nav>
+      <div class="sidebarNote">Organize sua rotina de conteúdo em um só lugar. ✨</div>
+    </aside>
+    <main class="content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">CENTRAL DE CONTEÚDO</p>
+          <h1>Bom te ver por aqui. ✨</h1>
+          <p class="muted">Prepare, organize e acompanhe suas publicações.</p>
+        </div>
+        <button class="primary" id="newPost">+ Novo post</button>
+      </header>
+      <section class="cards">
+        <article class="card"><div class="icon">📅</div><div><span>Posts de hoje</span><strong>0</strong><small>Nenhuma publicação preparada</small></div></article>
+        <article class="card"><div class="icon">👥</div><div><span>Grupos</span><strong>0</strong><small>Cadastre seus primeiros grupos</small></div></article>
+        <article class="card"><div class="icon">📝</div><div><span>Rascunhos</span><strong>0</strong><small>Conteúdos aguardando preparação</small></div></article>
+        <article class="card"><div class="icon">📊</div><div><span>Publicados</span><strong>0</strong><small>O histórico aparecerá aqui</small></div></article>
+      </section>
+      <section class="panel">
+        <div class="panelHead">
+          <div><h2>Fila de publicações</h2><p class="muted">Os próximos conteúdos preparados aparecerão aqui.</p></div>
+          <button class="secondary">Ver todos</button>
+        </div>
+        <div class="empty">
+          <div class="emptyIcon">📝</div>
+          <h3>Nenhum post preparado ainda</h3>
+          <p>Comece criando seu primeiro conteúdo.</p>
+          <button class="primary" id="firstPost">Criar primeiro post</button>
+        </div>
+      </section>
+      <footer>Gestor de Posts · versão inicial</footer>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
